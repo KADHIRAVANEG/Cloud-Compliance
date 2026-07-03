@@ -32,7 +32,7 @@ provider "aws" {
       sns            = var.localstack_endpoint
       cloudwatch     = var.localstack_endpoint
       cloudwatchlogs = var.localstack_endpoint
-     
+
     }
   }
 }
@@ -54,12 +54,12 @@ module "networking" {
 module "logging" {
   source       = "./modules/logging"
   project_name = "cloudcompliance"
-  environment = var.environment
+  environment  = var.environment
 }
 module "encryption" {
   source       = "./modules/encryption"
   project_name = "cloudcompliance"
-  environment = var.environment
+  environment  = var.environment
 }
 module "iam" {
   source       = "./modules/iam"
