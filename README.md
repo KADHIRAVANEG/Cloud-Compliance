@@ -1,3 +1,4 @@
+[![Docker](https://img.shields.io/badge/Docker-ghcr.io-2496ED?logo=docker)](https://github.com/KADHIRAVANEG/terraform-aws-cloudcompliance/pkgs/container/terraform-aws-cloudcompliance)
 [![PyPI version](https://img.shields.io/pypi/v/cloudcompliance?color=blue)](https://pypi.org/project/cloudcompliance/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/cloudcompliance)](https://pypi.org/project/cloudcompliance/)
 [![Terraform Registry](https://img.shields.io/badge/Terraform%20Registry-cloudcompliance-7B42BC?logo=terraform)](https://registry.terraform.io/modules/KADHIRAVANEG/cloudcompliance/aws/latest)
@@ -116,6 +117,22 @@ terraform apply
 pip install cloudcompliance
 cloudcompliance
 ```
+
+## Docker Usage
+
+```bash
+# Pull the image
+docker pull ghcr.io/kadhiravaneg/terraform-aws-cloudcompliance:latest
+
+# Run against your terraform state
+docker run -v /path/to/your/terraform:/app/terraform \
+  ghcr.io/kadhiravaneg/terraform-aws-cloudcompliance:latest
+
+# Run against this repo's state
+docker run -v ~/cloudcompliance/terraform:/app/terraform \
+  ghcr.io/kadhiravaneg/terraform-aws-cloudcompliance:latest
+```
+
 
 **Expected output:**
 
