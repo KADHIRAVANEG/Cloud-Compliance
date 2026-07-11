@@ -6,3 +6,6 @@ compliance/compliance_report.json
 *.tfvars
 .env
 terraform/local-dev.tfvars
+dist/
+build/
+*.egg-info/

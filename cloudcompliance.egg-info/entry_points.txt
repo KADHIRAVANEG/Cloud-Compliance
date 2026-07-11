@@ -1,2 +1,0 @@
-[console_scripts]
-cloudcompliance = cloudcompliance.report:main
