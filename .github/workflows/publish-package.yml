@@ -6,11 +6,10 @@ on:
 
 jobs:
   publish:
-    name: Publish to GitHub Packages
+    name: Publish to PyPI
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
 
     steps:
       - name: Checkout
@@ -27,13 +26,8 @@ jobs:
       - name: Build package
         run: python -m build
 
-      - name: Publish to GitHub Packages
-        run: |
-          twine upload \
-            --repository-url https://upload.pypi.org/legacy/ \
-            --username __token__ \
-            --password ${{ secrets.GITHUB_TOKEN }} \
-            dist/*
+      - name: Publish to PyPI
+        run: twine upload dist/* --skip-existing
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
