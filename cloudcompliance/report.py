@@ -206,7 +206,6 @@ def print_report(results: dict, resources: list, output_path: Path = None):
 
     save_markdown(results, resources, score, pass_count)
 
-    # Save to history database
     from cloudcompliance.history import save_score
     save_score(output_path)
 
@@ -224,7 +223,7 @@ def run(tfstate_path: str = None, output_path: str = None):
 def main():
     import argparse
     parser = argparse.ArgumentParser(
-        description="CloudCompliance — SOC2 evidence, drift detection and history"
+        description="CloudCompliance — SOC2 evidence, drift detection, history, AI assistant and auto-remediation"
     )
     subparsers = parser.add_subparsers(dest="command")
 
@@ -250,6 +249,26 @@ def main():
         help="Export history as JSON for auditors"
     )
 
+    ask_parser = subparsers.add_parser("ask", help="Ask AI about your compliance state")
+    ask_parser.add_argument("question", help="Your compliance question")
+    ask_parser.add_argument(
+        "--api-key",
+        default=None,
+        help="NVIDIA NIM API key (or set NVIDIA_API_KEY env var)"
+    )
+
+    remediate_parser = subparsers.add_parser("remediate", help="Auto-remediate drift findings")
+    remediate_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be done without making changes"
+    )
+    remediate_parser.add_argument(
+        "--endpoint",
+        default=None,
+        help="AWS endpoint URL"
+    )
+
     args = parser.parse_args()
 
     tfstate_path = Path(__file__).parent.parent / "terraform" / "terraform.tfstate"
@@ -268,6 +287,18 @@ def main():
         show_history(limit=args.limit)
         if args.export:
             export_history()
+
+    elif args.command == "ask":
+        from cloudcompliance.assistant import main as ask_main
+        ask_main(args.question, args.api_key)
+
+    elif args.command == "remediate":
+        from cloudcompliance.remediation import RemediationEngine
+        engine = RemediationEngine(
+            endpoint_url=args.endpoint,
+            dry_run=args.dry_run
+        )
+        engine.run()
 
     else:
         console.print(f"[dim]Reading state from: {tfstate_path}[/dim]")
