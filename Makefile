@@ -1,4 +1,4 @@
-.PHONY: deploy deploy-prod validate report drift history destroy all
+.PHONY: deploy deploy-prod validate report drift history remediate destroy all
 
 deploy:
 	cd terraform && terraform init && terraform apply -var-file=local.tfvars -auto-approve
@@ -20,6 +20,12 @@ history:
 
 history-export:
 	cloudcompliance history --export
+
+remediate:
+	cloudcompliance remediate
+
+remediate-dry:
+	cloudcompliance remediate --dry-run
 
 destroy:
 	cd terraform && terraform destroy -var-file=local.tfvars -auto-approve
