@@ -295,9 +295,9 @@ flowchart TD
     CI -->|gate| TF_Root
     CI -->|check| Core
     Drift -.-> Rem
-    Core -->|outputs| Comp[compliance/]```
+    Core -->|outputs| Comp[compliance/]
 
-
+```
 ---
 
 ## Use as a Terraform Module
